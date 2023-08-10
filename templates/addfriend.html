@@ -1,0 +1,34 @@
+{% with title='Add Friend | Habit Tracker' %} {% include "header.html" %} {%
+endwith %}
+
+<section class="main">
+	<div class="main-top">
+		<h1>Add A Friend To {{habit['title']}}</h1>
+	</div>
+
+	{% for category, message in get_flashed_messages(with_categories=True) %}
+	<div class="flash-{{category}}">{{ message }}</div>
+	{% endfor %}
+
+	<section class="main-course">
+		<form
+			style="max-width: 30vw"
+			method="post"
+			action="/habit_details/{{habit['id']}}/invite"
+		>
+			<div class="form-group">
+				<label for="email">Email address:</label>
+				<input
+					type="email"
+					name="email"
+					class="form-control"
+					id="email"
+					required
+				/>
+			</div>
+			<button type="submit" class="btn btn-primary my-3">Submit</button>
+		</form>
+	</section>
+</section>
+
+{% include 'footer.html' %}

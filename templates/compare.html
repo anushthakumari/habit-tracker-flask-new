@@ -1,0 +1,51 @@
+{% with title='Compare | Habit Tracker' %} {% include "header.html" %} {%
+endwith %}
+
+<div class="container">
+	<h1 class="h3 mb-3">Challenge Ground</h1>
+
+	<center>
+		{% if tasks|length == 0 %}
+		<h1 class="h1 my-3">No Habit</h1>
+		{% endif %} {% for message in get_flashed_messages() %}
+		<div class="alert" style="color: red">{{ message }}</div>
+		{% endfor %}
+	</center>
+	<div style="display: flex; align-items: center; gap: 2rem">
+		{% for task in tasks %}
+		<div class="">
+			<div class="weather-card rounded">
+				<div class="top">
+					<div class="wrapper">
+						<div class="mynav">
+							<a href="javascript:;"
+								><span class="lnr lnr-chevron-left"></span
+							></a>
+							<a href="javascript:;"><span class="lnr lnr-cog"></span></a>
+						</div>
+						<h3 class="heading">{{task['title']}}</h3>
+						<p class="temp">
+							<span class="temp-value"
+								>{{task['completed_days']}}/{{task['duration']}} Days
+								completed</span
+							>
+						</p>
+					</div>
+				</div>
+				<div class="bottom">
+					<button
+						class="my-3 w-100 btn btn-secondary"
+						onclick="window.location.href
+				=`/compare/{{task['id']}}`"
+						style="background-color: green"
+					>
+						View Details
+					</button>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% include 'footer.html' %}

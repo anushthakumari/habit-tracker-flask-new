@@ -1,0 +1,93 @@
+{% with title='Dashboard | Habit Tracker' %} {% include "header.html" %} {%
+endwith %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-4 col-xl-3">
+			<div class="card bg-c-blue order-card">
+				<div class="card-block">
+					<h6 class="m-b-20">Total Habits</h6>
+					<h3 class="row align-items-center justify-content-between">
+						<span class="col">{{habits|length}}</span>
+					</h3>
+				</div>
+				<a href="/tasks" class="btn btn-secondary w-100">Go To Habits</a>
+			</div>
+		</div>
+
+		<div class="col-md-4 col-xl-3">
+			<div class="card bg-c-yellow order-card">
+				<div class="card-block">
+					<h6 class="m-b-20">Challenges</h6>
+					<h3 class="text-right col text-right align-self-end">
+						{{habits|length}}
+					</h3>
+				</div>
+				<a href="/compare" class="btn btn-secondary w-100">Go To Challenges</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<canvas id="myChart" style="width: 100%; max-width: 40vw"></canvas>
+
+<script>
+	var xValues = {{ titles | tojson }};
+	var yValues = {{ percentages | tojson }};
+	var backgroundColor = {{ backgrounds | tojson }};
+</script>
+
+<script>
+	window.onload = function (params) {
+		var barColors = ["red", "green", "blue", "orange", "brown"];
+
+		new Chart("myChart", {
+			type: "bar",
+			data: {
+				labels: xValues,
+				datasets: [
+					{
+						data: yValues,
+						backgroundColor,
+					},
+				],
+			},
+			options: {
+				legend: { display: false },
+				title: {
+					display: true,
+					text: "Overall Progress",
+				},
+				scales: {
+					yAxes: [
+						{
+							display: true,
+							ticks: {
+								beginAtZero: true,
+								steps: 10,
+								stepValue: 5,
+								max: 100,
+							},
+							scaleLabel: {
+								display: true,
+								labelString: "Percentage",
+							},
+						},
+					],
+					xAxes: [
+						{
+							display: true,
+
+							scaleLabel: {
+								display: true,
+								labelString: "Habits",
+							},
+						},
+					],
+				},
+			},
+		});
+	};
+</script>
+
+{% include 'footer.html' %}

@@ -1,0 +1,149 @@
+{% with title='Habits - Details | Habit Tracker' %} {% include "header.html" %}
+{% endwith %}
+
+<link rel="stylesheet" href="/static/css/habit_details.css">
+
+<div class="container">
+	<h1 class="h3">{{habit['title']}} Details</h1>
+
+	{% for message in get_flashed_messages() %}
+	<div class="alert" style="color: red">{{ message }}</div>
+	{% endfor %}
+
+
+	<center>
+		<h3 class="h2">{{ ((day_progress['completed_days'] / habit['duration']) * 100) | round | int }}%</h3>
+
+	</center>
+
+	<div class="">
+		<div class="progress">
+			<div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+				style="width: {{ ((day_progress['completed_days'] / habit['duration']) * 100) | round | int }}%"
+				aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+		</div>
+	</div>
+
+	<center>
+		<h3 class="h5">
+			{{day_progress['completed_days']}}/{{habit['duration']}} Days
+			completed
+		</h3>
+	</center>
+
+	<center>
+		<button onclick="handleIncrementDay()" class="mt-3 btn btn-primary">I Completed My Task Today!!</button>
+	</center>
+
+	<div class="page-content page-container" id="page-content">
+		<div class="padding">
+			<div class="row">
+				<div class="col-sm-6">
+					<h1 class="h3">Friends</h1>
+					{% for user in users %}
+					<div class="list list-row block">
+						<div class="list-item" data-id="19">
+							<div><a href="#" data-abc="true"><span
+										class="w-48 avatar gd-warning text-uppercase">{{user.name[0]}}</span></a></div>
+							<div class="flex">
+								<a href="#" class="item-author text-color" data-abc="true">{{user.name}}
+									({{user.email}})</a>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+					<a href="/habit_details/{{habit['id']}}/invite" style="width: 50%;" class="my-3">+Add
+						Friends</a>
+				</div>
+				<!-- <div class="col-sm-4">
+					<h1 class="h3">Progress</h1>
+					<div class="list list-row block">
+						<canvas id="piechart" style="width: 100%; max-width: 40vw"></canvas>
+					</div>
+				</div> -->
+				<div class="col-sm-6">
+					<h1 class="h3">Edit Details</h1>
+					<form action="/habit_details/{{habit['id']}}" method="post">
+						<div>
+							<div class="mb-3 mt-3">
+								<input type="text" class="form-control" id="title" value="{{habit['title']}}"
+									placeholder="Enter a title" name="title" minlength="5" maxlength="100" required />
+							</div>
+							<div class="mb-3">
+								<div class="form-floating">
+									<select id="duration" name="duration" value="{{habit['duration']}}"
+										class="form-select" required>
+										<option value="21" {{ 'selected' if habit['duration']==21 else '' }}>21 days
+										</option>
+										<option value="30" {{ 'selected' if habit['duration']==30 else '' }}>For a month
+										</option>
+										<option value="60" {{ 'selected' if habit['duration']==60 else '' }}>2 months
+										</option>
+										<option value="90" {{ 'selected' if habit['duration']==90 else '' }}>3 months
+										</option>
+									</select>
+									<label for="duration">Select Habit Duration</label>
+								</div>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	const day_btns = document.getElementsByClassName("day-btn")
+
+	Array.from(day_btns).forEach(btn => {
+		btn.addEventListener("click", (ev) => {
+			const n = ev.target.dataset.n;
+			const hid = ev.target.dataset.hid;
+
+			if (!n) {
+				return;
+			}
+
+			if (!hid) {
+				return;
+			}
+
+			window.location.href = "/increment-habit-day/" + hid
+		})
+	})
+
+
+</script>
+
+<script>
+	var percentage_completed = {{ ((day_progress['completed_days'] / habit['duration']) * 100) | round | int }}
+	var percentage_remains = 100 - percentage_completed;
+	var habit_id = {{ habit['id'] }}
+</script>
+
+<script>
+	// var chrt = document.getElementById("piechart").getContext("2d");
+	// var chartId = new Chart(chrt, {
+	// 	type: 'pie',
+	// 	data: {
+	// 		labels: ["Completed", "Not Completed"],
+	// 		datasets: [{
+	// 			label: "Progress",
+	// 			data: [percentage_completed, percentage_remains],
+	// 			backgroundColor: ['green', 'red',],
+	// 			hoverOffset: 5
+	// 		}],
+	// 	},
+	// 	options: {
+	// 		responsive: false,
+	// 	},
+	// });
+
+	// function handleIncrementDay(params) {
+	// 	window.location.href = "/increment-habit-day/" + habit_id
+	// }
+</script>
+{% include 'footer.html' %}

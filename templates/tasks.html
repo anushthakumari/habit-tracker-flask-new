@@ -1,0 +1,158 @@
+{% with title='Tasks | Habit Tracker' %} {% include "header.html" %} {% endwith
+%}
+
+<div class="container">
+	<div
+		class=""
+		style="display: flex; justify-content: space-between; align-items: center"
+	>
+		<h1 class="h3 mb-3">Your Habits</h1>
+		<button
+			type="button"
+			class="btn btn-primary"
+			data-bs-toggle="modal"
+			data-bs-target="#addtask"
+		>
+			<i class="fas fa-plus"></i>Add Habit!
+		</button>
+	</div>
+
+	<center>
+		{% if tasks|length == 0 %}
+		<h1 class="h1 my-3">No Habit</h1>
+		{% endif %} {% for message in get_flashed_messages() %}
+		<div class="alert" style="color: red">{{ message }}</div>
+		{% endfor %}
+	</center>
+	<div style="display: flex; align-items: center; gap: 2rem">
+		{% for task in tasks %}
+		<div class="">
+			<div class="weather-card rounded">
+				<div class="top">
+					<div class="wrapper">
+						<div class="mynav">
+							<a href="javascript:;"
+								><span class="lnr lnr-chevron-left"></span
+							></a>
+							<a href="javascript:;"><span class="lnr lnr-cog"></span></a>
+						</div>
+						<h3 class="heading">{{task['title']}}</h3>
+						<p class="temp">
+							<span class="temp-value"
+								>{{task['completed_days']}}/{{task['duration']}} Days
+								completed</span
+							>
+						</p>
+					</div>
+				</div>
+				<div class="bottom">
+					<div class="wrapper">
+						<button
+							class="my-3 btn btn-secondary"
+							onclick="window.location.href
+				=`/habit_details/{{task['id']}}`"
+						>
+							View Details
+						</button>
+						<button class="btn btn-danger delete-btn" data-id="{{task['id']}}">
+							Delete Habit
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+<div
+	class="modal fade"
+	id="addtask"
+	tabindex="-1"
+	aria-labelledby="addtaskLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form action="/add-new-task" method="post">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Habit</h5>
+					<button
+						type="button"
+						class="btn-close"
+						data-bs-dismiss="modal"
+						aria-label="Close"
+					></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3 mt-3">
+						<label for="title" class="form-label">Title:</label>
+						<input
+							type="text"
+							class="form-control"
+							id="title"
+							placeholder="Enter a title"
+							name="title"
+							minlength="5"
+							maxlength="100"
+							required
+						/>
+					</div>
+					<div class="mb-3">
+						<div class="form-floating">
+							<select
+								id="duration"
+								name="duration"
+								class="form-select"
+								required
+							>
+								<option value="21">21 days</option>
+								<option value="30">For a month</option>
+								<option value="60">2 months</option>
+								<option value="90">3 months</option>
+								<!-- <option value="120">4 months</option>
+								<option value="150">5 months</option>
+								<option value="180">6 months</option>
+								<option value="210">7 months</option>
+								<option value="240">8 months</option>
+								<option value="270">9 months</option>
+								<option value="300">10 months</option>
+								<option value="330">11 months</option>
+								<option value="360">A Year</option>
+								<option value="720">2 Years</option> -->
+							</select>
+							<label for="duration">Select Habit Duration</label>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button
+						type="button"
+						class="btn btn-secondary"
+						data-bs-dismiss="modal"
+					>
+						Close
+					</button>
+					<button type="submit" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+	const deletebtns = document.getElementsByClassName("delete-btn");
+
+	//handle delete
+	Array.from(deletebtns).forEach((e) => {
+		e.addEventListener("click", function (event) {
+			if (
+				confirm(
+					"Are you sure you want to delete this habit? you will not be able to revert back after this action!!"
+				)
+			) {
+				window.location.href = "/delete-task/" + event.target.dataset.id;
+			}
+		});
+	});
+</script>
+{% include 'footer.html' %}

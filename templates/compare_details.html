@@ -1,0 +1,121 @@
+{% with title='Habits - Details | Habit Tracker' %} {% include "header.html" %}
+{% endwith %}
+
+<link rel="stylesheet" href="/static/css/compare_details.css" />
+
+<div class="container">
+	<h1 class="h3">{{habit['title']}} Scoreboard</h1>
+
+	<div
+		class="mt-5"
+		style="display: flex; justify-content: center; align-items: center"
+	>
+		<div style="width: 700px">
+			<ul class="list-group">
+				{% for i in range(users|length) %}
+				<li class="list-group-item">
+					<div
+						style="
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+						"
+					>
+						<p class="h6 text-capitalize">
+							Rank {{i+1}} - {{users[i]['name']}}
+						</p>
+						<p class="h5">
+							{{users[i]['completed_days']}}/{{habit['duration']}} Days
+						</p>
+					</div>
+					<div class="progress" style="height: 30px">
+						<div
+							class="progress-bar"
+							role="progressbar"
+							style="width: {{ ((users[i]['completed_days'] / habit['duration']) * 100) | round | int }}%"
+							aria-valuenow="{{ ((users[i]['completed_days'] / habit['duration']) * 100) | round | int }}"
+							aria-valuemin="0"
+							aria-valuemax="100"
+						>
+							{{ ((users[i]['completed_days'] / habit['duration']) * 100) |
+							round | int }}%
+						</div>
+					</div>
+				</li>
+
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+
+<section class="main">
+	<!-- <div class="main-top">
+		<h1>{{habit['title']}} Scoreboard</h1>
+		<i class="fas fa-user-cog"></i>
+	</div>
+	<div class="maincontainer">
+		<main>
+			<div id="header">
+				<h1>Scoreboard</h1>
+				<button class="share">
+					<i class="fas fa-trophy"></i>
+				</button>
+			</div>
+			<div id="leaderboard">
+				<div class="ribbon"></div>
+				<table>
+					{% block list %} {% for i in range(users|length) %}
+					<tr>
+						<td class="number">{{i+1}}</td>
+						<td class="name">{{users[i]['name']}}</td>
+						<td class="points">
+							{{users[i]['completed_days']}}/{{habit['duration']}} Days {% if
+							i== 0 %}
+							<img
+								class="gold-medal"
+								src="/static/img/gold-medal.png"
+								alt="gold medal"
+							/>
+							{% endif %}
+						</td>
+					</tr>
+					{% endfor %} {% endblock %}
+					
+				</table>
+				
+			</div>
+		</main>
+	</div> -->
+
+	<!-- <div class="main-skills">
+		{% block content %} {% for i in range(users|length) %}
+		<div class="card text-center">
+			<div class="card-header">{{i+1}} Rank</div>
+			<div class="card-body">
+				<h5 class="card-title">{{users[i]['name']}}</h5>
+				<p class="card-text">{{users[i]['email']}}</p>
+				<button class="btn btn-primary">
+					{{users[i]['completed_days']}}/{{habit['duration']}} days
+				</button>
+			</div>
+			<div class="card-footer text-muted">
+				<div
+					class="progress"
+					role="progressbar"
+					aria-label="Success striped example"
+					aria-valuenow="25"
+					aria-valuemin="0"
+					aria-valuemax="100"
+				>
+					<div
+						class="progress-bar progress-bar-striped bg-success"
+						style="width: {{ ((users[i]['completed_days'] / habit['duration']) * 100) | round | int}}%"
+					></div>
+				</div>
+			</div>
+		</div>
+		{% endfor %} {% endblock %}
+	</div> -->
+</section>
+{% include 'footer.html' %}

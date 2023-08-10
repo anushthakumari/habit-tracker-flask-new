@@ -1,0 +1,74 @@
+{% with title='Progress | Habit Tracker' %} {% include "header.html" %} {%
+endwith %}
+
+<!-- <section class="main">
+	<div class="main-top">
+		<h1>Progress</h1>
+		<i class="fas fa-user-cog"></i>
+	</div>
+
+	<div class="main-skills">
+		{% block content %} {% for i in range(habits|length) %}
+		<div class="card text-center">
+			<div class="card-header">{{habits[i]['title']}}</div>
+			<div class="card-body">
+				<h5 class="card-title">{{habits[i]['name']}}</h5>
+				<p class="card-text">{{habits[i]['email']}}</p>
+				<button class="btn btn-primary">
+					{{habits[i]['completed_days']}}/{{habits[i]['duration']}} days
+				</button>
+			</div>
+			<div class="card-footer text-muted">
+				<div
+					class="progress"
+					role="progressbar"
+					aria-label="Success striped example"
+					aria-valuenow="25"
+					aria-valuemin="0"
+					aria-valuemax="100"
+				>
+					<div
+						class="progress-bar progress-bar-striped bg-success"
+						style="width: {{ ((habits[i]['completed_days'] / habits[i]['duration']) * 100) | round | int}}%"
+					></div>
+				</div>
+			</div>
+		</div>
+		{% endfor %} {% endblock %}
+	</div>
+</section> -->
+
+<h2 class="h2 mb-3">Progress</h2>
+<div class="row">
+	<div class="col-md-4">
+		{% for i in range(habits|length) %}
+		<div class="card p-3 mb-2">
+			<div class="">
+				<h3 class="heading">{{habits[i]['title']}}</h3>
+				<div class="mt-5">
+					<div class="progress">
+						<div
+							class="progress-bar progress-bar-striped bg-success"
+							role="progressbar"
+							style="width: {{ ((habits[i]['completed_days'] / habits[i]['duration']) * 100) | round | int}}%"
+							aria-valuenow="50"
+							aria-valuemin="0"
+							aria-valuemax="100"
+						></div>
+					</div>
+					<div class="mt-3">
+						<span class="text1"
+							>{{habits[i]['completed_days']}} days
+							<span class="text2"
+								>of {{habits[i]['duration']}} days completed</span
+							></span
+						>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% include 'footer.html' %}
