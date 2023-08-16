@@ -1,13 +1,13 @@
-import dbconnection
+import db
 
-def get_user_details_by_email(email=""):
-    conn = dbconnection()
+def get_user_by_email(email=""):
+    conn = db()
     user = conn.execute("SELECT * FROM users WHERE email = ?",(email,)).fetchone()
     conn.close()
     return user
 
 def insert_user(email="", password="", name=""):
-    conn = dbconnection()
+    conn = db()
     user = conn.execute("insert into users (name, email, pass) values (?, ?, ?) RETURNING id",(name,email,password)).fetchone()
     conn.commit()
     conn.close()
@@ -15,8 +15,8 @@ def insert_user(email="", password="", name=""):
     print(id)
     return id
 
-def is_valid_creds(email, password):
-   user = get_user_details_by_email(email)
+def check_login(email, password):
+   user = get_user_by_email(email)
    if(user is None):
       return False
    else:

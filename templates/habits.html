@@ -1,4 +1,4 @@
-{% with title='Tasks | Habit Tracker' %} {% include "header.html" %} {% endwith
+{% with title='Habits | Habit Tracker' %} {% include "header.html" %} {% endwith
 %}
 
 <div class="container">
@@ -13,7 +13,7 @@
 			data-bs-toggle="modal"
 			data-bs-target="#addtask"
 		>
-			<i class="fas fa-plus"></i>Add Habit!
+			<i class="fas fa-plus"></i>Create Habit!
 		</button>
 	</div>
 
@@ -74,9 +74,9 @@
 >
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form action="/add-new-task" method="post">
+			<form action="/add-habit" method="post">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Add Habit</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Cretae Habit</h5>
 					<button
 						type="button"
 						class="btn-close"
